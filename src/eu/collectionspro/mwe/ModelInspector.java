@@ -1,3 +1,14 @@
+/**
+ * Eclipse Public License - v 1.0
+ * 
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THE
+ * ECLIPSE PUBLIC LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION
+ * OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT’S ACCEPTANCE
+ * OF THIS AGREEMENT.
+ * 
+ * Full License text is provided in file LICENSE or can be found
+ * here: http://www.eclipse.org/org/documents/epl-v10.html
+ */
 package eu.collectionspro.mwe;
 
 import java.lang.reflect.Method;
@@ -10,9 +21,10 @@ public class ModelInspector extends BaseModelWalker {
 	String reprText(EObject obj, String name) {
 		if (name == null)
 			name = "";
-		else name = name + " ";
-		return String.format("%s%s %s[0x%08x]", obj.eIsProxy() ? "proxy-to ":"",
-					obj.eClass().getName(), name, obj.hashCode());
+		else
+			name = name + " ";
+		return String.format("%s%s %s[0x%08x]", obj.eIsProxy() ? "proxy-to " : "", obj.eClass()
+				.getName(), name, obj.hashCode());
 	}
 
 	String repr(EObject obj) {
@@ -24,7 +36,7 @@ public class ModelInspector extends BaseModelWalker {
 			m = obj.getClass().getMethod("getQualifiedName");
 			return reprText(obj, (String) m.invoke(obj));
 		} catch (Exception e) {
-			//do nothing, try method getName instead of getQualifiedName
+			// do nothing, try method getName instead of getQualifiedName
 		}
 		try {
 			m = obj.getClass().getMethod("getName");
@@ -33,9 +45,9 @@ public class ModelInspector extends BaseModelWalker {
 			return reprText(obj, null);
 		}
 	}
-	
+
 	protected int indent = 0;
-	
+
 	@Override
 	protected void traverseElement(EObject element) {
 		for (int i = 0; i < indent; i++)

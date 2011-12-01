@@ -11,19 +11,13 @@
  */
 package eu.collectionspro.mwe;
 
+import java.io.File;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 
-public interface IModelWalker {
+public interface ICodeGenerator {
 
-	public void start();
-
-	public void onNewSlot(String slotName, Object slotContent);
-
-	public void onRootResource(Resource res);
-
-	public void onRootElement(EObject element);
-
-	public void finish();
+	public void generateCode(EObject model, File folder, Map<String, Object> arguments);
 
 }

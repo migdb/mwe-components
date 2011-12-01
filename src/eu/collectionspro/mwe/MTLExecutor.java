@@ -1,3 +1,14 @@
+/**
+ * Eclipse Public License - v 1.0
+ * 
+ * THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THE
+ * ECLIPSE PUBLIC LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION
+ * OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT’S ACCEPTANCE
+ * OF THIS AGREEMENT.
+ * 
+ * Full License text is provided in file LICENSE or can be found
+ * here: http://www.eclipse.org/org/documents/epl-v10.html
+ */
 package eu.collectionspro.mwe;
 
 import java.io.File;
@@ -74,15 +85,17 @@ public class MTLExecutor extends AbstractWorkflowComponent {
 				return;
 			}
 			if (!moreRoots && modelContent.size() > 1) {
-				issues.addError("slot content list containts "+ modelContent.size() + " elements, but it is not expected (use 'moreRoots')");
+				issues.addError("slot content list containts " + modelContent.size()
+						+ " elements, but it is not expected (use 'moreRoots')");
 				return;
 			}
-			for(EObject model : modelContent) {
+			for (EObject model : modelContent) {
 				System.out.println("Generating code...");
-				if(model.eIsProxy()) {
+				if (model.eIsProxy()) {
 					EcoreUtil.resolveAll(model);
 				}
-				AbstractAcceleoGenerator generator = constructor.newInstance(model, folder, arguments);
+				AbstractAcceleoGenerator generator = constructor.newInstance(model, folder,
+						arguments);
 				generator.doGenerate(new BasicMonitor());
 			}
 		} catch (Exception e) {
