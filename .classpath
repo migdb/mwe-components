@@ -3,5 +3,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.compare_1.2.2.v20120214-0915.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.compare.diff_1.2.2.v20120214-0915.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.compare.match_1.2.2.v20120214-0915.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.common_2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.ecore_2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.emf.ecore.xmi_2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="/home/woxie/devel/Eclipse Modeling Tools - Indigo/plugins/org.eclipse.uml2.uml_3.2.100.v201108110105.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
