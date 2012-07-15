@@ -8,7 +8,7 @@ import org.eclipse.emf.mwe.utils.Writer;
 
 import eu.collectionspro.mwe.QVTOExecutor;
 
-public class QVTOValidator extends WorkflowComponentWithModelSlot{
+public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 	protected QVTOExecutor testCreator;
 	protected QVTOExecutor testExecuter;
 	protected QVTOExecutor testResult;
@@ -57,7 +57,7 @@ public class QVTOValidator extends WorkflowComponentWithModelSlot{
 	}
 		
 	
-	public QVTOValidator(){
+	public QVTOValidatorTest(){
 		super();
 		testCreator = new QVTOExecutor();
 		resultWriter = new Writer();
