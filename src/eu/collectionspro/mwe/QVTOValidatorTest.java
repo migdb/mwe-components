@@ -13,6 +13,8 @@ public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 	protected QVTOExecutor testExecuter;
 	protected QVTOExecutor testResult;
 	protected Writer resultWriter;
+	protected Writer errorLogWriter;
+	protected String errorModelSlot;
  	
 	public void setOutputUri(String uri){
 		resultWriter.setUri(uri);
@@ -29,7 +31,14 @@ public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 		if(resultWriter.getUri() == null){
 			issues.addError("Output URI not set");
 		}
+		if(errorLogWriter.getUri() == null){
+			issues.addError("Error URI not set");
+		}
+		if(errorModelSlot == null){
+			issues.addError("Error model slot not specified");
+		}
 		resultWriter.checkConfiguration(issues);
+		errorLogWriter.checkConfiguration(issues);
 	}
 	
 	@Override
@@ -38,6 +47,9 @@ public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 		testCreator.invoke(ctx, monitor, issues);
 		resultWriter.invoke(ctx, monitor, issues);
 		testExecuter.invoke(ctx, monitor, issues);
+		if(errorLogWriter.getUri() != null){
+			errorLogWriter.invoke(ctx, monitor, issues);
+		}
 	}
 
 	public void setCreateTransformation(String fileName){
@@ -55,7 +67,16 @@ public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 		resultWriter.setModelSlot(slot);
 		testExecuter.addInOutSlot(slot);		
 	}
-		
+
+	public void setErrorModelSlot(final String slot){
+		testExecuter.addOutputSlot(slot);
+		errorLogWriter.setModelSlot(slot);
+		errorModelSlot = slot;
+	}
+	
+	public void setErrorUri(final String uri){
+		errorLogWriter.setUri(uri);
+	}
 	
 	public QVTOValidatorTest(){
 		super();
@@ -64,6 +85,9 @@ public class QVTOValidatorTest extends WorkflowComponentWithModelSlot{
 		resultWriter.setCloneSlotContents(false);
 		resultWriter.setUseSingleGlobalResourceSet(false);
 		testExecuter = new QVTOExecutor();
+		errorLogWriter = new Writer();
+		errorLogWriter.setCloneSlotContents(false);
+		errorLogWriter.setUseSingleGlobalResourceSet(false);	
 	}
 	
 }

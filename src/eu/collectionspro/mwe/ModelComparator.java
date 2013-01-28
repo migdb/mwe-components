@@ -125,10 +125,10 @@ public class ModelComparator extends AbstractWorkflowComponent implements IModel
 				final DiffModel diff = DiffService.doDiff(match, false);
 				// Prints the results
 				if(diff.getDifferences().size() > 0 ){
-					System.out.println("Test: " + description + " fails");
+					System.out.println("ModelComparator: " + description + " fails");
 					success = false;
 				} else {
-					System.out.println("Test: " + description + " OK");
+					System.out.println("ModelComparator: " + description + " OK");
 					success = true;
 				}
 			} catch (IOException e) {
