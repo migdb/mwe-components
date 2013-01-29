@@ -140,7 +140,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 	}
 
 	/** 
-	 * Adds input uri to be used by test transformation. 
+	 * Adds input uri to be used by test transformation.
 	 */
 	public void addQvtInput(final String inputUri){
 		this.inputUris.add(inputUri);
