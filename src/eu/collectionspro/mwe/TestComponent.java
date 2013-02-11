@@ -75,9 +75,9 @@ public class TestComponent extends AbstractWorkflowComponent{
 	 * @param issues
 	 */
 	protected void storeSlots(List <String> transformationList, String slotPrefix, 
-			WorkflowContext ctx, ProgressMonitor monitor, Issues issues){
+			WorkflowContext ctx, ProgressMonitor monitor, Issues issues, boolean isStoringAll){
 		for( int i = 0 ; i < transformationList.size() ; i++){
-			if(!transformationList.get(i).equals("")){
+			if(isStoringAll || !transformationList.get(i).equals("")){
 				String slot = slotPrefix + i;
 				Writer slotWriter = new Writer();
 				slotWriter.setUri(outputParentUri + "/" + slotPrefix + "X/" + slot + ".xmi");
@@ -96,7 +96,8 @@ public class TestComponent extends AbstractWorkflowComponent{
 		QVTOExecutor testTransformationExecuter = new QVTOExecutor();
 		testTransformationExecuter.setTransformationFile(transformationFile);
 		fulfillSlots(inputUris, INPUT_PREFIX, ctx, monitor, issues);
-		storeSlots(inputUris, INPUT_PREFIX, ctx, monitor, issues);
+		//store all models
+		storeSlots(inputUris, INPUT_PREFIX, ctx, monitor, issues, true);
 		
 		//adding input slots into test transformation
 		for( int i = 0 ; i < inputUris.size() ; i++){
@@ -114,12 +115,13 @@ public class TestComponent extends AbstractWorkflowComponent{
 		testTransformationExecuter.checkConfiguration(issues);
 		testTransformationExecuter.invoke(ctx, monitor, issues);
 		
-		//store result slots which count equals to comparison slots count
-		storeSlots(comparisonUris, RESULT_PREFIX, ctx, monitor, issues);
+		//store ALL result slots which count equals to comparison slots count
+		storeSlots(comparisonUris, RESULT_PREFIX, ctx, monitor, issues, true);
 		
 		//create and store comparison models
 		fulfillSlots(comparisonUris, COMPARISON_PREFIX, ctx, monitor, issues);
-		storeSlots(comparisonUris, COMPARISON_PREFIX, ctx, monitor, issues);
+		//store only not "" models
+		storeSlots(comparisonUris, COMPARISON_PREFIX, ctx, monitor, issues, false);
 				
 		//make comparations between result and expected result(comparison)
 		for(int i = 0 ; i < comparisonUris.size() ; i++){

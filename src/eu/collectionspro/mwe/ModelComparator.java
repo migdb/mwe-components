@@ -3,6 +3,8 @@ package eu.collectionspro.mwe;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+
+import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
@@ -125,6 +127,9 @@ public class ModelComparator extends AbstractWorkflowComponent implements IModel
 				final DiffModel diff = DiffService.doDiff(match, false);
 				// Prints the results
 				if(diff.getDifferences().size() > 0 ){
+					for(DiffElement diffElement : diff.getDifferences()){
+						System.out.println(diffElement);
+					}
 					System.out.println("ModelComparator: " + description + " fails");
 					success = false;
 				} else {
