@@ -17,3 +17,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: eu.collectionspro.mwe
+Import-Package: org.apache.log4j

@@ -36,6 +36,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 	 */
 	protected String testDescription;
 	
+	protected boolean isSuccesful;
 	//hidden Comparators
 	protected List<ModelComparator> modelComparators;
 	protected final String INPUT_PREFIX = "INPUT_";
@@ -46,6 +47,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 		inputUris = new ArrayList<String>();
 		comparisonUris = new ArrayList<String>();
 		testDescription = "TEST";
+		isSuccesful = true;
 	}
 	
 	/** Processes QVTExecutor subtransformation that MUST have only **/
@@ -135,6 +137,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 				comparator.setTestedURI(resultXMI);
 				comparator.setResultURI(comparisonXMI);
 				comparator.invoke(ctx, monitor, issues);
+				isSuccesful = isSuccesful && comparator.getSuccess();
 			}
 		}
 
@@ -189,5 +192,9 @@ public class TestComponent extends AbstractWorkflowComponent{
 		if(outputParentUri == null || outputParentUri.equals("")){
 			issues.addError("Missing output directory URI");
 		}
+	}
+	
+	public boolean isSuccesfull(){
+		return isSuccesful;
 	}
 }
