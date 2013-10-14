@@ -3,7 +3,9 @@ package eu.collectionspro.mwe;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
@@ -125,6 +127,8 @@ public class ModelComparator extends AbstractWorkflowComponent implements IModel
 						.<String, Object> emptyMap());
 				// Makes diff between models
 				final DiffModel diff = DiffService.doDiff(match, false);
+				EList<DiffElement> diffList = diff.getDifferences();
+				
 				// Prints the results
 				if(diff.getDifferences().size() > 0 ){
 					for(DiffElement diffElement : diff.getDifferences()){

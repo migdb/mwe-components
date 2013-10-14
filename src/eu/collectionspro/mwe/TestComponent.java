@@ -95,6 +95,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 	@Override
 	protected void invokeInternal(WorkflowContext ctx, ProgressMonitor monitor,
 			Issues issues) {
+		System.out.println("Starting Testing " + testDescription);
 		QVTOExecutor testTransformationExecuter = new QVTOExecutor();
 		testTransformationExecuter.setTransformationFile(transformationFile);
 		fulfillSlots(inputUris, INPUT_PREFIX, ctx, monitor, issues);
@@ -141,7 +142,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 			}
 		}
 
-		System.out.println("Testing " + testDescription + " finisthed\n");
+		System.out.println("Testing " + testDescription + " finished\n");
 	}
 
 	/** 
@@ -173,6 +174,10 @@ public class TestComponent extends AbstractWorkflowComponent{
 	 */
 	public void setTestDescription(String description){
 		testDescription = description;
+	}
+	
+	public String getTestDescription(){
+		return testDescription;
 	}
 	
 	/** sets uri of tested transformation **/
