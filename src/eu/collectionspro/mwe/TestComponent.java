@@ -57,7 +57,8 @@ public class TestComponent extends AbstractWorkflowComponent{
 			if(!transformationList.get(i).equals("")){
 				String inputUri = transformationList.get(i);
 				String outputSlot = slotPrefix + i;
-	
+	 
+				System.out.println("Creating " + inputUri);
 				//creating 
 				QVTOExecutor inputExecutor = new QVTOExecutor();
 				inputExecutor.setTransformationFile(inputUri);
