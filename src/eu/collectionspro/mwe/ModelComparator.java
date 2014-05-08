@@ -6,12 +6,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.ModelUtils;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -132,7 +134,17 @@ public class ModelComparator extends AbstractWorkflowComponent implements IModel
 				// Prints the results
 				if(diff.getDifferences().size() > 0 ){
 					for(DiffElement diffElement : diff.getDifferences()){
-						System.out.println(diffElement);
+						if(diffElement instanceof AttributeChange){
+							AttributeChange attChange = (AttributeChange) diffElement;
+							EAttribute changedAtribute = attChange.getAttribute();
+							System.out.println("Atribute " + changedAtribute.getName() + 
+									" in " + attChange.getLeftElement().eClass().getName() + 
+									" has changed from " + 
+									 attChange.getLeftElement().eGet(changedAtribute) +
+									" to " + attChange.getRightElement().eGet(changedAtribute));
+						}else{
+							System.out.println(diffElement);
+						}
 					}
 					System.out.println("ModelComparator: " + description + " fails");
 					success = false;
