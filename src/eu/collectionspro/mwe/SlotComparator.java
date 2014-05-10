@@ -31,8 +31,22 @@ import org.eclipse.uml2.uml.resource.UMLResource;
  * @author woxie
  *
  */
-public class ModelComparator extends BaseEObjectComparator{
-
+public class SlotComparator extends BaseEObjectComparator{
+	/**
+	 *  Sets slotName of expected/comparison slot 
+	 * @param slot
+	 */
+	public void setResultSlot(final String slotName){
+		this.resultUri = slotName;
+	}
+	
+	/**
+	 *  Sets URI of test file 
+	 * @param uri
+	 */
+	public void setTestedSlot(final String slotName){
+		this.testUri = slotName;
+	}
 	
 	/**
 	 * Checks whether the component is used in desired way - eg. if the values of the parameters 
@@ -43,39 +57,34 @@ public class ModelComparator extends BaseEObjectComparator{
 	@Override
 	public void checkConfiguration(Issues issues) {
 		if(resultUri == null){
-			issues.addError("Result uri is empty");
+			issues.addError("Result slot name is empty");
 			if(!new File(resultUri).canRead()){
-				issues.addError("File with uri: " + resultUri + " can't be loaded.");
+				issues.addError("Slot: " + resultUri + " can't be loaded.");
 			}
 		}
 		if(testUri == null){
-			issues.addError("Test uri is empty");
+			issues.addError("Test slot name is empty");
 			if(!new File(testUri).canRead()){
-				issues.addError("File with uri: " + testUri + " can't be loaded.");
+				issues.addError("Slot: " + testUri + " can't be loaded.");
 			}
 		}
 		
 	}
 
-	@Override
-	protected EObject loadModel(WorkflowContext ctx, ProgressMonitor monitor, Issues issues, String uri) {
-		final ResourceSet resourceSet = new ResourceSetImpl();
-		// Register additionnal packages here. For UML2 for instance :
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION,
-				UMLResource.Factory.INSTANCE);
-		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-
-			// Loads the two models passed as arguments
-			try {
-				final EObject model = ModelUtils.load(new File(testUri), resourceSet);
-				return model;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				issues.addError("Cannot load File " + uri);
-			}
-	
-		return null;
+	@SuppressWarnings("unchecked")
+	protected EObject loadModel(WorkflowContext ctx, ProgressMonitor monitor, Issues issues, String location){
+		Object slotContent = ctx.get(this.testUri);
+		if(slotContent == null || !(slotContent instanceof List<?>)){
+			issues.addError("Input slot '" + location
+					+ "' is empty or contains iappropriate object!");
+			return null;
+		}
+		List<EObject> list = (List<EObject>)(slotContent);
+		if(list.size() != 1){
+			issues.addError("Input slot '" + location
+					+ "' doesn't contain one root element!");
+			return null;
+		}
+		return list.get(0);
 	}
-
-
 }
