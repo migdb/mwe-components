@@ -31,23 +31,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
  * @author woxie
  *
  */
-public class SlotComparator extends BaseEObjectComparator{
-	/**
-	 *  Sets slotName of expected/comparison slot 
-	 * @param slot
-	 */
-	public void setResultSlot(final String slotName){
-		this.resultUri = slotName;
-	}
-	
-	/**
-	 *  Sets URI of test file 
-	 * @param uri
-	 */
-	public void setTestedSlot(final String slotName){
-		this.testUri = slotName;
-	}
-	
+public class SlotComparator extends BaseEObjectComparator{	
 	/**
 	 * Checks whether the component is used in desired way - eg. if the values of the parameters 
 	 * are from the allowed range (set).
