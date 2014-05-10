@@ -24,12 +24,12 @@ public class TestWorkflow extends Workflow{
 		int total = 0;
 		int successfull = 0;
 		for (IWorkflowComponent component : getChildren()) {
-			if(component.getClass() == TestComponent.class){
+			if(component instanceof TestFeature){
 				total++;
-				if(((TestComponent)component).isSuccesfull()){
+				if(((TestFeature)component).isSuccesfull()){
 					successfull++;
 				} else{
-					failedTests.add(((TestComponent)component).getTestDescription());
+					failedTests.add(((TestFeature)component).getTestDescription());
 				}
 			}
 		}

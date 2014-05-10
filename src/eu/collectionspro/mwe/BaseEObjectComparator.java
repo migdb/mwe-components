@@ -2,6 +2,7 @@ package eu.collectionspro.mwe;
 
 import java.util.Collections;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
@@ -16,7 +17,11 @@ import org.eclipse.emf.mwe.core.issues.Issues;
 import org.eclipse.emf.mwe.core.lib.AbstractWorkflowComponent;
 import org.eclipse.emf.mwe.core.monitor.ProgressMonitor;
 
-public abstract class BaseEObjectComparator extends AbstractWorkflowComponent implements IBaseEObjectComparator{
+public abstract class BaseEObjectComparator extends AbstractWorkflowComponent implements IBaseEObjectComparator , TestFeature{
+	public BaseEObjectComparator() {
+		logger = Logger.getLogger(BaseEObjectComparator.class);
+	}
+	protected Logger logger;
 	/**
 	 * Test description that is showed after test success/failure.
 	 */
@@ -54,6 +59,10 @@ public abstract class BaseEObjectComparator extends AbstractWorkflowComponent im
 	public void setTestDescription(final String description){
 		this.description = description;
 	}
+	
+	public String getTestDescription(){
+		return description;
+	}
 
 	/**
 	 *  Get the result test value
@@ -61,6 +70,10 @@ public abstract class BaseEObjectComparator extends AbstractWorkflowComponent im
 	 */
 	public boolean getSuccess(){
 		return success;
+	}
+	
+	public boolean isSuccesfull(){
+		return getSuccess();
 	}
 	
 	protected abstract EObject loadModel(WorkflowContext ctx, ProgressMonitor monitor, Issues issues, String location);
@@ -90,19 +103,19 @@ public abstract class BaseEObjectComparator extends AbstractWorkflowComponent im
 						if(diffElement instanceof AttributeChange){
 							AttributeChange attChange = (AttributeChange) diffElement;
 							EAttribute changedAtribute = attChange.getAttribute();
-							System.out.println("Atribute " + changedAtribute.getName() + 
+							logger.info("Atribute " + changedAtribute.getName() + 
 									" in " + attChange.getLeftElement().eClass().getName() + 
 									" has changed from " + 
 									 attChange.getLeftElement().eGet(changedAtribute) +
 									" to " + attChange.getRightElement().eGet(changedAtribute));
 						}else{
-							System.out.println(diffElement);
+							logger.info(diffElement);
 						}
 					}
-					System.out.println("ModelComparator: " + description + " fails");
+					logger.info("ModelComparator: " + description + " fails");
 					success = false;
 				} else {
-					System.out.println("ModelComparator: " + description + " OK");
+					logger.info("ModelComparator: " + description + " OK");
 					success = true;
 				}
 			} catch (InterruptedException e) {

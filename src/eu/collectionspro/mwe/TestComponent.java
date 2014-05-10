@@ -3,6 +3,7 @@ package eu.collectionspro.mwe;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.mwe.core.WorkflowContext;
 import org.eclipse.emf.mwe.core.issues.Issues;
 import org.eclipse.emf.mwe.core.lib.AbstractWorkflowComponent;
@@ -20,9 +21,10 @@ import eu.collectionspro.mwe.QVTOExecutor;
  * @author woxie
  *
  */
-public class TestComponent extends AbstractWorkflowComponent{
+public class TestComponent extends AbstractWorkflowComponent implements TestFeature{
 	protected List<String> inputUris;
 	protected List<String> comparisonUris;
+	protected Logger logger = Logger.getLogger(TestComponent.class);
 
 	/** tested transformation URI **/
 	protected String transformationFile;
@@ -58,7 +60,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 				String inputUri = transformationList.get(i);
 				String outputSlot = slotPrefix + i;
 	 
-				System.out.println("Creating " + inputUri);
+				logger.info("Creating " + inputUri);
 				//creating 
 				QVTOExecutor inputExecutor = new QVTOExecutor();
 				inputExecutor.setTransformationFile(inputUri);
@@ -96,7 +98,7 @@ public class TestComponent extends AbstractWorkflowComponent{
 	@Override
 	protected void invokeInternal(WorkflowContext ctx, ProgressMonitor monitor,
 			Issues issues) {
-		System.out.println("Starting Testing " + testDescription);
+		logger.info("Starting Testing " + testDescription);
 		QVTOExecutor testTransformationExecuter = new QVTOExecutor();
 		testTransformationExecuter.setTransformationFile(transformationFile);
 		fulfillSlots(inputUris, INPUT_PREFIX, ctx, monitor, issues);
@@ -134,16 +136,21 @@ public class TestComponent extends AbstractWorkflowComponent{
 						+ COMPARISON_PREFIX + i + ".xmi";
 				String resultXMI = outputParentUri+"/" + RESULT_PREFIX + "X/" 
 						+ RESULT_PREFIX + i + ".xmi";
-				ModelComparator comparator = new ModelComparator();
+				BaseEObjectComparator comparator = new SlotComparator();
+				comparator.setTestedURI(RESULT_PREFIX + i );
+				comparator.setResultURI(COMPARISON_PREFIX + i);
+
+				//BaseEObjectComparator comparator = new ModelComparator();
+				//comparator.setTestedURI(resultXMI);
+				//comparator.setResultURI(comparisonXMI);
+								
 				comparator.setTestDescription(testDescription + i);
-				comparator.setTestedURI(resultXMI);
-				comparator.setResultURI(comparisonXMI);
 				comparator.invoke(ctx, monitor, issues);
 				isSuccesful = isSuccesful && comparator.getSuccess();
 			}
 		}
 
-		System.out.println("Testing " + testDescription + " finished\n");
+		logger.info("Testing " + testDescription + " finished\n");
 	}
 
 	/** 
