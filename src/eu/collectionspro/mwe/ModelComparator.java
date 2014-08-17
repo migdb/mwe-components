@@ -67,7 +67,7 @@ public class ModelComparator extends BaseEObjectComparator{
 
 			// Loads the two models passed as arguments
 			try {
-				final EObject model = ModelUtils.load(new File(testUri), resourceSet);
+				final EObject model = ModelUtils.load(new File(uri), resourceSet);
 				return model;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -57,7 +57,7 @@ public class SlotComparator extends BaseEObjectComparator{
 
 	@SuppressWarnings("unchecked")
 	protected EObject loadModel(WorkflowContext ctx, ProgressMonitor monitor, Issues issues, String location){
-		Object slotContent = ctx.get(this.testUri);
+		Object slotContent = ctx.get(location);
 		if(slotContent == null || !(slotContent instanceof List<?>)){
 			issues.addError("Input slot '" + location
 					+ "' is empty or contains iappropriate object!");

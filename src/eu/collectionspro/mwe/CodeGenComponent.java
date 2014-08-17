@@ -76,7 +76,7 @@ public class CodeGenComponent extends AbstractWorkflowComponent {
 				}
 				model = (EObject) coll.get(0);
 			}
-
+			
 			generator.generateCode(model, outputPathFile, arguments);
 
 		} catch (Exception e) {
